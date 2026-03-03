@@ -1,5 +1,7 @@
 package main
 
+import "math/rand"
+
 func process(instruction uint16) {
 	category := instruction >> 12
 
@@ -48,6 +50,22 @@ func process(instruction uint16) {
 		if v[indexX] == v[indexY] {
 			pc += 2
 		}
+	case 0x9: // 9XY0: Pula uma instrução se V[X] != V[Y]
+		indexX := (instruction & 0xF00) >> 8
+		indexY := (instruction & 0xF0) >> 4
+
+		if v[indexX] != v[indexY] {
+			pc += 2
+		}
+	case 0xC: // CXNN: V[X] recebe um número aleatório (0 a 255) AND NN
+		index := (instruction & 0x0F00) >> 8
+		nn := byte(instruction & 0x00FF)
+
+		randomNumber := byte(rand.Intn(256))
+		v[index] = randomNumber & nn
+	case 0xB: // BNNN: Pula para o endereço NNN + V[0]
+		nnn := instruction & 0x0FFF
+		pc = nnn + uint16(v[0])
 	case 0xF:
 		index := (instruction & 0x0F00) >> 8
 
@@ -206,7 +224,6 @@ func process(instruction uint16) {
 
 					if screen[finalY][finalX] == 1 {
 						v[0xF] = 1
-						soundTimer = 10
 					}
 
 					screen[finalY][finalX] ^= 1
