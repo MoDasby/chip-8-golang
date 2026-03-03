@@ -1,0 +1,8 @@
+{
+    "name": "Flighrunner",
+    "description": "Subway surf de nave espacial",
+    "romName": "./flightrunner.ch8",
+    "theme": {
+        "primaryColor": 
+    }
+}
