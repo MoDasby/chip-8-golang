@@ -2,6 +2,7 @@ package main
 
 import (
 	"chip-8-golang/gfx"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -9,18 +10,23 @@ import (
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-func convertRGB(strs []string) []uint8 {
+func convertRGB(strs []string) ([]uint8, error) {
+	// Expect exactly 3 components: R, G, B.
+	if len(strs) != 3 {
+		return nil, fmt.Errorf("invalid RGB value %v: expected 3 components, got %d", strs, len(strs))
+	}
+
 	result := make([]uint8, len(strs))
 
 	for i, s := range strs {
 		v, err := strconv.ParseUint(strings.TrimSpace(s), 10, 8)
 		if err != nil {
-			panic(err)
+			return nil, fmt.Errorf("invalid RGB component %q: %w", s, err)
 		}
 		result[i] = uint8(v)
 	}
 
-	return result
+	return result, nil
 }
 
 func main() {
@@ -32,11 +38,21 @@ func main() {
 
 	sdl.Init(sdl.INIT_AUDIO)
 
+	primaryRGB, err := convertRGB(strings.Split(choosedGame.Theme.PrimaryColor, ","))
+	if err != nil {
+		panic(err)
+	}
+
+	secondaryRGB, err := convertRGB(strings.Split(choosedGame.Theme.SecondaryColor, ","))
+	if err != nil {
+		panic(err)
+	}
+
 	window, renderer, err := gfx.CreateWindowAndRenderer(
 		gfx.DEFAULT_SCALE,
 		choosedGame.Name,
-		convertRGB(strings.Split(choosedGame.Theme.PrimaryColor, ",")),
-		convertRGB(strings.Split(choosedGame.Theme.SecondaryColor, ",")),
+		primaryRGB,
+		secondaryRGB,
 	)
 	if err != nil {
 		panic(err)
