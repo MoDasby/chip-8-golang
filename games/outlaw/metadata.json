@@ -1,0 +1,11 @@
+{
+    "name": "Outlaw",
+    "folderName": "outlaw",
+    "description": "Uma adaptação do jogo de Atari com mesmo nome, disputa de tiros no velho oeste (use WASD para se mover e E para atirar)",
+    "romLocation": "outlaw.ch8",
+    "theme": {
+        "primaryColor": "114, 63, 2",
+        "secondaryColor": "198, 21, 20"
+    },
+    "order": 100
+}

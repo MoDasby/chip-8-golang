@@ -1,0 +1,11 @@
+{
+    "name": "Chip-8 Logo",
+    "folderName": "chip-8-logo",
+    "description": "ROM para testar o emulador, deve mostrar a logo do chip-8 na tela",
+    "romLocation": "chip8-logo.ch8",
+    "theme": {
+        "primaryColor": "0, 0, 0",
+        "secondaryColor": "255, 255, 255"
+    },
+    "order": -1
+}

@@ -1,0 +1,11 @@
+{
+    "name": "8ceattourny Disco 2",
+    "folderName": "8ceattourny_d2",
+    "description": "Batalhas judiciais emocionantes! Disco 2/3.",
+    "romLocation": "8ceattourny_d2.ch8",
+    "theme": {
+        "primaryColor": "0, 0, 0",
+        "secondaryColor": "255, 255, 255"
+    },
+    "order": 10
+}

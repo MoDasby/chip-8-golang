@@ -3,23 +3,63 @@ package main
 import (
 	"chip-8-golang/gfx"
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-func main() {
-	boot()
-	sdl.Init(sdl.INIT_AUDIO)
+func convertRGB(strs []string) ([]uint8, error) {
+	// Expect exactly 3 components: R, G, B.
+	if len(strs) != 3 {
+		return nil, fmt.Errorf("invalid RGB value %v: expected 3 components, got %d", strs, len(strs))
+	}
 
-	fmt.Println("Criando tela")
-	window, renderer, err := gfx.CreateWindowAndRenderer(gfx.DEFAULT_SCALE, "Chip-8 emulator")
+	result := make([]uint8, len(strs))
+
+	for i, s := range strs {
+		v, err := strconv.ParseUint(strings.TrimSpace(s), 10, 8)
+		if err != nil {
+			return nil, fmt.Errorf("invalid RGB component %q: %w", s, err)
+		}
+		result[i] = uint8(v)
+	}
+
+	return result, nil
+}
+
+func main() {
+
+	choosedGame, err := boot()
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Tela criada")
 
-	fmt.Println("Iniciando jogo")
+	if err := sdl.Init(sdl.INIT_AUDIO); err != nil {
+		panic(err)
+	}
+	defer sdl.Quit()
+
+	primaryRGB, err := convertRGB(strings.Split(choosedGame.Theme.PrimaryColor, ","))
+	if err != nil {
+		panic(err)
+	}
+
+	secondaryRGB, err := convertRGB(strings.Split(choosedGame.Theme.SecondaryColor, ","))
+	if err != nil {
+		panic(err)
+	}
+
+	window, renderer, err := gfx.CreateWindowAndRenderer(
+		gfx.DEFAULT_SCALE,
+		choosedGame.Name,
+		primaryRGB,
+		secondaryRGB,
+	)
+	if err != nil {
+		panic(err)
+	}
 
 	var dt time.Duration
 	last := time.Now()
