@@ -6,5 +6,6 @@
     "theme": {
         "primaryColor": "247, 166, 0",
         "secondaryColor": "18, 15, 34"
-    }
+    },
+    "order": 100
 }

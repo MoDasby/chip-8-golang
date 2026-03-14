@@ -6,6 +6,7 @@ import (
 	"flag"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/manifoldco/promptui"
 )
@@ -23,6 +24,7 @@ type GameMetadata struct {
 		PrimaryColor   string `json:"primaryColor"`
 		SecondaryColor string `json:"secondaryColor"`
 	} `json:"theme"`
+	Order int `json:"order"`
 }
 
 func boot() (*GameMetadata, error) {
@@ -97,6 +99,13 @@ func askForGame(gamesMap map[string]GameMetadata) (*GameMetadata, error) {
 	for _, game := range gamesMap {
 		gamesSlice = append(gamesSlice, game)
 	}
+
+	sort.Slice(gamesSlice, func(i, j int) bool {
+		if gamesSlice[i].Order != gamesSlice[j].Order {
+			return gamesSlice[i].Order > gamesSlice[j].Order
+		}
+		return gamesSlice[i].Name < gamesSlice[j].Name
+	})
 
 	prompt := promptui.Select{
 		Label: "Escolha uma ROM",
