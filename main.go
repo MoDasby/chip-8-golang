@@ -2,24 +2,45 @@ package main
 
 import (
 	"chip-8-golang/gfx"
-	"fmt"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
 
-func main() {
-	boot()
-	sdl.Init(sdl.INIT_AUDIO)
+func convertRGB(strs []string) []uint8 {
+	result := make([]uint8, len(strs))
 
-	fmt.Println("Criando tela")
-	window, renderer, err := gfx.CreateWindowAndRenderer(gfx.DEFAULT_SCALE, "Chip-8 emulator")
+	for i, s := range strs {
+		v, err := strconv.ParseUint(strings.TrimSpace(s), 10, 8)
+		if err != nil {
+			panic(err)
+		}
+		result[i] = uint8(v)
+	}
+
+	return result
+}
+
+func main() {
+
+	choosedGame, err := boot()
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Tela criada")
 
-	fmt.Println("Iniciando jogo")
+	sdl.Init(sdl.INIT_AUDIO)
+
+	window, renderer, err := gfx.CreateWindowAndRenderer(
+		gfx.DEFAULT_SCALE,
+		choosedGame.Name,
+		convertRGB(strings.Split(choosedGame.Theme.PrimaryColor, ",")),
+		convertRGB(strings.Split(choosedGame.Theme.SecondaryColor, ",")),
+	)
+	if err != nil {
+		panic(err)
+	}
 
 	var dt time.Duration
 	last := time.Now()

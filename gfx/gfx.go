@@ -27,7 +27,18 @@ var KEYBOARD_MAP = map[sdl.Keycode]uint16{
 	sdl.K_v: 0xF,
 }
 
-func CreateWindowAndRenderer(scale int32, title string) (*sdl.Window, *sdl.Renderer, error) {
+type Color struct {
+	r uint8
+	g uint8
+	b uint8
+}
+
+var (
+	PRIMARY_COLOR   Color
+	SECONDARY_COLOR Color
+)
+
+func CreateWindowAndRenderer(scale int32, title string, primaryColor []uint8, secondaryColor []uint8) (*sdl.Window, *sdl.Renderer, error) {
 	window, err := sdl.CreateWindow(
 		title,
 		int32(sdl.WINDOWPOS_CENTERED),
@@ -46,19 +57,31 @@ func CreateWindowAndRenderer(scale int32, title string) (*sdl.Window, *sdl.Rende
 		return nil, nil, err
 	}
 
+	PRIMARY_COLOR = Color{
+		r: primaryColor[0],
+		g: primaryColor[1],
+		b: primaryColor[2],
+	}
+
+	SECONDARY_COLOR = Color{
+		r: secondaryColor[0],
+		g: secondaryColor[1],
+		b: secondaryColor[2],
+	}
+
 	return window, renderer, nil
 }
 
 func ClearBuffer(screen *[ScreenH][ScreenW]byte) {
 	for y := range ScreenH {
-		for x := 0; x < ScreenW; x++ {
+		for x := range ScreenW {
 			screen[y][x] = 0
 		}
 	}
 }
 
 func ClearRenderer(r *sdl.Renderer) error {
-	if err := r.SetDrawColor(15, 56, 15, 255); err != nil {
+	if err := r.SetDrawColor(PRIMARY_COLOR.r, PRIMARY_COLOR.g, PRIMARY_COLOR.b, 255); err != nil {
 		return err
 	}
 	return r.Clear()
@@ -69,7 +92,7 @@ func Render(r *sdl.Renderer, screen *[ScreenH][ScreenW]byte, scale int32) error 
 		return err
 	}
 
-	if err := r.SetDrawColor(139, 172, 15, 255); err != nil {
+	if err := r.SetDrawColor(SECONDARY_COLOR.r, SECONDARY_COLOR.g, SECONDARY_COLOR.b, 255); err != nil {
 		return err
 	}
 
