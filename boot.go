@@ -5,7 +5,7 @@ import (
 	"errors"
 	"flag"
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/manifoldco/promptui"
 )
@@ -69,7 +69,7 @@ func loadGames() (map[string]GameMetadata, error) {
 
 	for _, entry := range gamesFolder {
 		if entry.IsDir() {
-			file, err := os.ReadFile(path.Join(GAMES_FOLDER, entry.Name(), "metadata.json"))
+			file, err := os.ReadFile(filepath.Join(GAMES_FOLDER, entry.Name(), "metadata.json"))
 			if err != nil {
 				return nil, err
 			}
@@ -88,7 +88,7 @@ func loadGames() (map[string]GameMetadata, error) {
 }
 
 func normalizeRomLocation(metadata *GameMetadata) string {
-	return path.Join(GAMES_FOLDER, metadata.FolderName, metadata.RomLocation)
+	return filepath.Join(GAMES_FOLDER, metadata.FolderName, metadata.RomLocation)
 }
 
 func askForGame(gamesMap map[string]GameMetadata) (*GameMetadata, error) {
