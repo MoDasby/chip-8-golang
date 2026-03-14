@@ -1,8 +1,10 @@
 {
     "name": "Flighrunner",
-    "description": "Subway surf de nave espacial",
-    "romName": "./flightrunner.ch8",
+    "folderName": "flightrunner",
+    "description": "Voe infinitamente no espaço (use W para mover pra cima e S para mover pra baixo)",
+    "romLocation": "flightrunner.ch8",
     "theme": {
-        "primaryColor": 
+        "primaryColor": "0, 0, 0",
+        "secondaryColor": "255, 255, 255"
     }
 }

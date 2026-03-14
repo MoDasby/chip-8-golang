@@ -1,0 +1,10 @@
+{
+    "name": "Pumpkin \"Dress\" Up",
+    "folderName": "pumpkindressup",
+    "description": "Jogo de embelezamento com uma abóbora (use as teclas WASDEXC para embelezar a abobora)",
+    "romLocation": "pumpkindressup.ch8",
+    "theme": {
+        "primaryColor": "247, 166, 0",
+        "secondaryColor": "18, 15, 34"
+    }
+}
