@@ -36,7 +36,10 @@ func main() {
 		panic(err)
 	}
 
-	sdl.Init(sdl.INIT_AUDIO)
+	if err := sdl.Init(sdl.INIT_AUDIO); err != nil {
+		panic(err)
+	}
+	defer sdl.Quit()
 
 	primaryRGB, err := convertRGB(strings.Split(choosedGame.Theme.PrimaryColor, ","))
 	if err != nil {
