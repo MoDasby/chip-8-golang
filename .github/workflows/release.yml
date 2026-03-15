@@ -22,7 +22,7 @@ jobs:
             artifact: chip-8-linux-amd64
             ext: ""
           - os: windows
-            runner: ubuntu-latest
+            runner: windows-latest
             goos: windows
             goarch: amd64
             artifact: chip-8-windows-amd64
@@ -52,12 +52,6 @@ jobs:
             libasound2-dev \
             pkg-config
 
-      - name: Install Windows cross-compile dependencies
-        if: matrix.goos == 'windows'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-mingw-w64-x86-64
-
       - name: Build Linux
         if: matrix.goos == 'linux'
         env:
@@ -72,8 +66,7 @@ jobs:
           GOOS: windows
           GOARCH: amd64
           CGO_ENABLED: 1
-          CC: x86_64-w64-mingw32-gcc
-        run: go build -ldflags="-s -w -H windowsgui" -o ${{ matrix.artifact }}${{ matrix.ext }} .
+        run: go build -o ${{ matrix.artifact }}${{ matrix.ext }} .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
