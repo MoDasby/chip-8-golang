@@ -3,12 +3,12 @@ package main
 import (
 	"embed"
 	"encoding/json"
-	"path/filepath"
+	"path"
 )
 
 const GAMES_FOLDER_NAME = "games"
 
-//go:embed games/*
+//go:embed games
 var GAMES_FOLDER embed.FS
 
 type GameMetadata struct {
@@ -33,7 +33,7 @@ func loadGames() (map[string]GameMetadata, error) {
 
 	for _, entry := range gamesFolder {
 		if entry.IsDir() {
-			file, err := GAMES_FOLDER.ReadFile(filepath.Join(GAMES_FOLDER_NAME, entry.Name(), "metadata.json"))
+			file, err := GAMES_FOLDER.ReadFile(path.Join(GAMES_FOLDER_NAME, entry.Name(), "metadata.json"))
 			if err != nil {
 				return nil, err
 			}
@@ -52,6 +52,6 @@ func loadGames() (map[string]GameMetadata, error) {
 }
 
 func readROM(metadata *GameMetadata) ([]byte, error) {
-	path := filepath.Join(GAMES_FOLDER_NAME, metadata.FolderName, metadata.RomLocation)
-	return GAMES_FOLDER.ReadFile(path)
+	romPath := path.Join(GAMES_FOLDER_NAME, metadata.FolderName, metadata.RomLocation)
+	return GAMES_FOLDER.ReadFile(romPath)
 }
