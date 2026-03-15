@@ -1,6 +1,7 @@
 package main
 
 import (
+	"chip-8-golang/shaders"
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -26,6 +27,8 @@ type GFX struct {
 	SecondaryColor color.RGBA
 	cpu            *CPU
 	audioPlayer    *audio.Player
+	offscreen      *ebiten.Image
+	crtTime        float64
 }
 
 func (g *GFX) Update() error {
@@ -49,17 +52,45 @@ func (g *GFX) Update() error {
 }
 
 func (g *GFX) Draw(screenImage *ebiten.Image) {
-	screenImage.Fill(g.PrimaryColor)
+	sw, sh := ScreenW*Scale, ScreenH*Scale
 
+	if g.offscreen == nil {
+		g.offscreen = ebiten.NewImage(sw, sh)
+	}
+
+	g.offscreen.Fill(g.PrimaryColor)
 	for y := 0; y < ScreenH; y++ {
 		for x := 0; x < ScreenW; x++ {
 			if g.cpu.screen[y][x] == 1 {
-				vector.FillRect(screenImage, float32(x), float32(y), 1, 1, g.SecondaryColor, false)
+				vector.FillRect(g.offscreen,
+					float32(x*Scale), float32(y*Scale),
+					float32(Scale), float32(Scale),
+					g.SecondaryColor, false)
 			}
 		}
 	}
+
+	shader := shaders.GetCRTShader()
+	if shader != nil {
+		g.crtTime += 1.0 / 60.0
+		op := &ebiten.DrawRectShaderOptions{}
+		op.Images[0] = g.offscreen
+		op.Uniforms = map[string]any{
+			"Time":             float32(g.crtTime),
+			"PixelScale":       float32(Scale),
+			"Brightness":       float32(1.0),
+			"ScanlineStrength": float32(1.0),
+			"GridStrength":     float32(1.0),
+			"VignetteStrength": float32(1.0),
+			"TintStrength":     float32(1.0),
+		}
+		screenImage.DrawRectShader(sw, sh, shader, op)
+		return
+	}
+
+	screenImage.DrawImage(g.offscreen, nil)
 }
 
 func (g *GFX) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return ScreenW, ScreenH
+	return ScreenW * Scale, ScreenH * Scale
 }

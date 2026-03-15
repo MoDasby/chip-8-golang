@@ -6,32 +6,30 @@ import (
 )
 
 type CPU struct {
-	memory          []byte       // memória RAM de 4KB
-	pc              uint16       // Program counter, que aponta para a próxima instrução, começa em 0x200 porque os primeiros 512 bytes (0x000 a 0x1FF) são reservados para o sistema e fontes de caracteres
-	i               uint16       // registro de índice, usado para armazenar endereços de memória
-	v               []byte       // registradores V0 a VF, onde VF é usado como flag para algumas operações
-	stack           []uint16     // pilha para armazenar os endereços de retorno quando sub-rotinas são chamadas
-	sp              uint16       // stack pointer, que aponta para o topo da pilha
-	delayTimer      byte         // timer de atraso, que é decrementado a uma taxa de 60Hz quando for maior que zero
-	soundTimer      byte         // timer de som, que é decrementado a uma taxa de 60Hz quando for maior que zero. Quando chega a zero, um som é emitido
-	keyboard        []bool       // array com o estado de cada tecla do chip-8(16 teclas)
-	screen          [32][64]byte // mapeamento de pixels da tela
-	clearScreenFlag bool         // controle se deve ou não limpar a tela
+	memory     []byte       // memória RAM de 4KB
+	pc         uint16       // Program counter, que aponta para a próxima instrução, começa em 0x200 porque os primeiros 512 bytes (0x000 a 0x1FF) são reservados para o sistema e fontes de caracteres
+	i          uint16       // registro de índice, usado para armazenar endereços de memória
+	v          []byte       // registradores V0 a VF, onde VF é usado como flag para algumas operações
+	stack      []uint16     // pilha para armazenar os endereços de retorno quando sub-rotinas são chamadas
+	sp         uint16       // stack pointer, que aponta para o topo da pilha
+	delayTimer byte         // timer de atraso, que é decrementado a uma taxa de 60Hz quando for maior que zero
+	soundTimer byte         // timer de som, que é decrementado a uma taxa de 60Hz quando for maior que zero. Quando chega a zero, um som é emitido
+	keyboard   []bool       // array com o estado de cada tecla do chip-8(16 teclas)
+	screen     [32][64]byte // mapeamento de pixels da tela
 }
 
 func NewCpu() *CPU {
 	return &CPU{
-		memory:          make([]byte, 4096),
-		pc:              0x200,
-		i:               0,
-		v:               make([]byte, 16),
-		stack:           make([]uint16, 16),
-		sp:              0,
-		delayTimer:      0,
-		soundTimer:      0,
-		keyboard:        make([]bool, 16),
-		screen:          [32][64]byte{},
-		clearScreenFlag: false,
+		memory:     make([]byte, 4096),
+		pc:         0x200,
+		i:          0,
+		v:          make([]byte, 16),
+		stack:      make([]uint16, 16),
+		sp:         0,
+		delayTimer: 0,
+		soundTimer: 0,
+		keyboard:   make([]bool, 16),
+		screen:     [32][64]byte{},
 	}
 }
 
@@ -74,16 +72,6 @@ func (c *CPU) updateKeyboard(i uint16, state bool) {
 
 func (c *CPU) fetch() {
 
-	if c.clearScreenFlag {
-		for y := range 32 {
-			for x := range 64 {
-				c.screen[y][x] = 0
-			}
-		}
-
-		c.clearScreenFlag = false
-	}
-
 	if c.delayTimer > 0 {
 		c.delayTimer--
 	}
@@ -102,8 +90,11 @@ func (c *CPU) fetch() {
 
 func (c *CPU) process(instruction uint16) {
 	if instruction == 0x00E0 {
-		c.clearScreenFlag = true
-
+		for y := range 32 {
+			for x := range 64 {
+				c.screen[y][x] = 0
+			}
+		}
 		return
 	}
 
