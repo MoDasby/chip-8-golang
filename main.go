@@ -49,9 +49,12 @@ func (a *App) launchGame(game *GameMetadata) error {
 	cpu := NewCpu()
 	cpu.LoadFontset()
 
-	if err := cpu.LoadROM(normalizeRomLocation(game)); err != nil {
+	rom, err := readROM(game)
+	if err != nil {
 		return err
 	}
+
+	cpu.LoadROM(rom)
 
 	primaryRGB, _ := convertRGB(strings.Split(game.Theme.PrimaryColor, ","))
 	secondaryRGB, _ := convertRGB(strings.Split(game.Theme.SecondaryColor, ","))

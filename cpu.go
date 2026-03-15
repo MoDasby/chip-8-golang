@@ -1,9 +1,6 @@
 package main
 
-import (
-	"math/rand"
-	"os"
-)
+import "math/rand"
 
 type CPU struct {
 	memory     []byte       // memória RAM de 4KB
@@ -55,15 +52,8 @@ func (c *CPU) LoadFontset() {
 	copy(c.memory[80:], fontset)
 }
 
-func (c *CPU) LoadROM(filename string) error {
-	rom, err := os.ReadFile(filename)
-	if err != nil {
-		return err
-	}
-
+func (c *CPU) LoadROM(rom []byte) {
 	copy(c.memory[0x200:], rom)
-
-	return nil
 }
 
 func (c *CPU) updateKeyboard(i uint16, state bool) {
