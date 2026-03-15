@@ -80,6 +80,10 @@ func (a *App) returnToMenu() {
 			a.gfx.audioPlayer.Pause()
 		}
 		a.gfx.audioPlayer.Close()
+		if a.gfx.offscreen != nil {
+			a.gfx.offscreen.Deallocate()
+			a.gfx.offscreen = nil
+		}
 		a.gfx = nil
 	}
 	a.menu.Reset()

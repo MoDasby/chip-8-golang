@@ -1,0 +1,57 @@
+//kage:unit pixels
+
+package main
+
+var Time float
+var PixelScale float
+var Brightness float
+var ScanlineStrength float
+var GridStrength float
+var VignetteStrength float
+var TintStrength float
+
+func Fragment(dstPos vec4, srcPos vec2, color vec4) vec4 {
+	// UV normalizado [0,1] baseado na posição de destino
+	uv := dstPos.xy / imageDstSize()
+
+	// Distorção barril — curvatura da tela de TV CRT
+	c := uv*2.0 - 1.0
+	r2 := dot(c, c)
+	c *= 1.0 + r2*0.02
+	c = c*0.5 + 0.5
+
+	// Fora da tela → preto (bordas curvas)
+	if c.x < 0.0 || c.x > 1.0 || c.y < 0.0 || c.y > 1.0 {
+		return vec4(0, 0, 0, 1)
+	}
+
+	// Coordenada na textura fonte após distorção
+	texPos := imageSrc0Origin() + c*imageSrc0Size()
+
+	col := imageSrc0At(texPos)
+
+	// Scanlines — linhas de varredura horizontais
+	scanline := 1.0 - ScanlineStrength + ScanlineStrength*(0.78+0.22*sin(dstPos.y*3.14159*2.0/3.0))
+	col.rgb *= scanline
+
+	// Grade de fósforo — gap entre os pixels do CHIP-8
+	gx := mod(dstPos.x, PixelScale)
+	gy := mod(dstPos.y, PixelScale)
+	grid := clamp(1.0-GridStrength*0.22*step(PixelScale-1.5, gx)-GridStrength*0.22*step(PixelScale-1.5, gy), 0.55, 1.0)
+	col.rgb *= grid
+
+	// Vignette — escurecimento nas bordas da tela
+	vig := c * (1.0 - c)
+	vignette := clamp(pow(vig.x*vig.y*18.0, 0.35), 0.0, 1.0)
+	col.rgb *= 1.0 - VignetteStrength + VignetteStrength*vignette
+
+	// Flicker — tremulação sutil de TV velha
+	col.rgb *= 0.97 + 0.03*sin(Time*7.3)*sin(Time*17.1)
+
+	// Tom fósforo quente — leve âmbar/verde de monitor antigo
+	col.r *= 1.0 + 0.06*TintStrength
+	col.g *= 1.0 + 0.03*TintStrength
+	col.rgb *= Brightness
+
+	return col
+}
