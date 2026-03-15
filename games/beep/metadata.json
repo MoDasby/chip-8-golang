@@ -1,0 +1,11 @@
+{
+    "name": "Beep",
+    "folderName": "beep",
+    "description": "ROM para testar som do emulador, deve emitir SOS em código morse",
+    "romLocation": "7-beep.ch8",
+    "theme": {
+        "primaryColor": "0, 0, 0",
+        "secondaryColor": "255, 255, 255"
+    },
+    "order": -1
+}
