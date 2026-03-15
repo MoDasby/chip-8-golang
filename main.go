@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 )
 
 func convertRGB(strs []string) ([]uint8, error) {
@@ -39,10 +40,18 @@ func main() {
 	primaryRGB, _ := convertRGB(strings.Split(choosedGame.Theme.PrimaryColor, ","))
 	secondaryRGB, _ := convertRGB(strings.Split(choosedGame.Theme.SecondaryColor, ","))
 
+	audioContext := audio.NewContext(sampleRate)
+
+	player, err := audioContext.NewPlayer(&beepStream{})
+	if err != nil {
+		panic(err)
+	}
+
 	game := &GFX{
 		PrimaryColor:   color.RGBA{R: primaryRGB[0], G: primaryRGB[1], B: primaryRGB[2], A: 255},
 		SecondaryColor: color.RGBA{R: secondaryRGB[0], G: secondaryRGB[1], B: secondaryRGB[2], A: 255},
 		cpu:            cpu,
+		audioPlayer:    player,
 	}
 
 	ebiten.SetWindowSize(ScreenW*Scale, ScreenH*Scale)

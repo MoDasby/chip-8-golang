@@ -4,6 +4,7 @@ import (
 	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
@@ -24,6 +25,7 @@ type GFX struct {
 	PrimaryColor   color.RGBA
 	SecondaryColor color.RGBA
 	cpu            *CPU
+	audioPlayer    *audio.Player
 }
 
 func (g *GFX) Update() error {
@@ -32,6 +34,16 @@ func (g *GFX) Update() error {
 	}
 
 	g.cpu.fetch()
+
+	if g.cpu.soundTimer > 0 {
+		if !g.audioPlayer.IsPlaying() {
+			g.audioPlayer.Play()
+		}
+	} else {
+		if g.audioPlayer.IsPlaying() {
+			g.audioPlayer.Pause()
+		}
+	}
 
 	return nil
 }
