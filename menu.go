@@ -89,10 +89,10 @@ func (m *Menu) Draw(screen *ebiten.Image) {
 	vector.FillRect(screen, 7, 7, float32(MenuW-14), float32(MenuH-14), colorMenuBg, false)
 
 	// Título
-	title := "=== CHIP-8 EMULATOR ==="
+	title := "=== COSMAC VIP ==="
 	ebitenutil.DebugPrintAt(screen, title, (MenuW-len(title)*6)/2, 14)
 
-	subtitle := "Selecione uma ROM"
+	subtitle := "Selecione um jogo"
 	ebitenutil.DebugPrintAt(screen, subtitle, (MenuW-len(subtitle)*6)/2, 27)
 
 	// Divisor superior
@@ -141,7 +141,7 @@ func (m *Menu) Draw(screen *ebiten.Image) {
 	}
 
 	// Instruções
-	instructions := "W/S ou Up/Down: Navegar     Enter: Jogar     Esc: Sair"
+	instructions := "W/S ou Up/Down: Navegar     Enter: Jogar     N: Próxima musica     Esc: Sair"
 	instrX := (MenuW - len(instructions)*6) / 2
 	if instrX < 10 {
 		instrX = 10
