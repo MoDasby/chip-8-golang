@@ -1,0 +1,11 @@
+{
+    "name": "Pacman (blinky)",
+    "folderName": "blinky",
+    "description": "Pacman Remake (use 3 E para ir pra cima e baixo, A S para ir pros lados e 4 para reiniciar)",
+    "romLocation": "BLINKY",
+    "theme": {
+        "primaryColor": "8, 10, 28",
+        "secondaryColor": "255, 208, 64"
+    },
+    "order": 101
+}

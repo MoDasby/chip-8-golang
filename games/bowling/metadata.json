@@ -1,0 +1,11 @@
+{
+    "name": "Boliche",
+    "folderName": "bowling",
+    "description": "Jogue boliche, primeiro escolha quantidade de jogadores(1 2), use W para jogar",
+    "romLocation": "bowling.ch8",
+    "theme": {
+        "primaryColor": "20, 12, 6",
+        "secondaryColor": "255, 230, 160"
+    },
+    "order": 102
+}

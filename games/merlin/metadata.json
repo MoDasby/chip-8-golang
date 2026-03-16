@@ -1,0 +1,11 @@
+{
+    "name": "Merlin",
+    "folderName": "merlin",
+    "description": "Memorize a sequência de luzes e repita na ordem correta para avançar (use Q, W, A e S).",
+    "romLocation": "MERLIN",
+    "theme": {
+        "primaryColor": "18, 10, 32",
+        "secondaryColor": "210, 170, 255"
+    },
+    "order": 100
+}

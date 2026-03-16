@@ -1,0 +1,11 @@
+{
+    "name": "Roleta russa",
+    "folderName": "russianroulette",
+    "description": "Teste sua sorte: pressione qualquer tecla e sobreviva a 10 rodadas para vencer.",
+    "romLocation": "russian_roulette.ch8",
+    "theme": {
+        "primaryColor": "16, 4, 8",
+        "secondaryColor": "255, 80, 80"
+    },
+    "order": 101
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Tretris",
+    "folderName": "tetris",
+    "description": "Clássico jogo tetris, use(W e E para mover, Q para mudar posição e A para acelerar a queda)",
+    "romLocation": "tetris.ch8",
+    "theme": {
+        "primaryColor": "10, 12, 28",
+        "secondaryColor": "0, 240, 255"
+    },
+    "order": 102
+}

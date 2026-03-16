@@ -1,0 +1,11 @@
+{
+    "name": "UFO",
+    "folderName": "ufo",
+    "description": "Acerte os ovnis passando na tela para ganhar pontos(use Q W E para atirar)",
+    "romLocation": "UFO",
+    "theme": {
+        "primaryColor": "6, 18, 16",
+        "secondaryColor": "255, 244, 210"
+    },
+    "order": 100
+}

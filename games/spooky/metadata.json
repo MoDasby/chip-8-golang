@@ -1,0 +1,11 @@
+{
+    "name": "SIM ou NÃO",
+    "folderName": "spooky",
+    "description": "Grandes decisões devem ser tomadas pelo seu computador, faça a pergunta e pressione 1",
+    "romLocation": "spooky.ch8",
+    "theme": {
+        "primaryColor": "12, 6, 20",
+        "secondaryColor": "186, 255, 120"
+    },
+    "order": 100
+}

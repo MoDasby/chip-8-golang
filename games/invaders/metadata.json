@@ -1,0 +1,11 @@
+{
+    "name": "Space Invaders",
+    "folderName": "invaders",
+    "description": "Defenda a Terra de ondas de naves alienígenas (use Q e E para se mover e W para atirar)",
+    "romLocation": "invaders.ch8",
+    "theme": {
+        "primaryColor": "8, 6, 20",
+        "secondaryColor": "102, 255, 153"
+    },
+    "order": 101
+}

@@ -1,7 +1,7 @@
 {
     "name": "Flighrunner",
     "folderName": "flightrunner",
-    "description": "Voe infinitamente no espaço (use W para mover pra cima e S para mover pra baixo)",
+    "description": "Voe infinitamente no espaço (use WASD para se mover), mas cuidado com as paredes se encurtando",
     "romLocation": "flightrunner.ch8",
     "theme": {
         "primaryColor": "0, 0, 0",

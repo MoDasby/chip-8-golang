@@ -1,0 +1,11 @@
+{
+    "name": "Pong 2 jogadores",
+    "folderName": "pong2",
+    "description": "Pong para dois jogadores, use (Controles jogador 1: 1 e Q, Controles jogador 2: 4 e R)",
+    "romLocation": "pong2.ch8",
+    "theme": {
+        "primaryColor": "6, 18, 16",
+        "secondaryColor": "255, 244, 210"
+    },
+    "order": 101
+}

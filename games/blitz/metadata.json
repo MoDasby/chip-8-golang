@@ -1,0 +1,11 @@
+{
+    "name": "Blitz",
+    "folderName": "blitz",
+    "description": "Pilote o bombardeiro e destrua os prédios para passar de fase (use W para jogar bombas)",
+    "romLocation": "BLITZ",
+    "theme": {
+        "primaryColor": "10, 10, 26",
+        "secondaryColor": "255, 180, 80"
+    },
+    "order": 100
+}

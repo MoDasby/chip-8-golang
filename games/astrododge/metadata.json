@@ -1,0 +1,11 @@
+{
+    "name": "Astro dodge",
+    "folderName": "astrododge",
+    "description": "Desvie dos asteroides no vazio espacial (use Q e E para se mover)",
+    "romLocation": "astro_dodge.ch8",
+    "theme": {
+        "primaryColor": "6, 10, 30",
+        "secondaryColor": "120, 220, 255"
+    },
+    "order": 100
+}
