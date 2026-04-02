@@ -2,7 +2,7 @@
     "name": "SlipperySlope",
     "folderName": "slipperyslope",
     "description": "Resolva puzzles pra escapar de uma caverna (use WASD para se mover)",
-    "romLocation": "slipperyslope.ch8",
+    "romLocation": "output.ch8",
     "theme": {
         "primaryColor": "181, 225, 230",
         "secondaryColor": "32, 6, 129"
